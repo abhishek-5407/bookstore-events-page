@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Athenaeum Booksellers - Independent Bookstore Events Portal for Floor Staff" />
+  <title>Independent Bookstore Events Portal | Athenaeum Booksellers</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Skip to main content for Accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Global Header -->
+  <header class="header" role="banner">
+    <div class="container header-container">
+      <div class="brand-group">
+        <h1 class="brand-title">Athenaeum Booksellers</h1>
+        <span class="badge" aria-label="Portal Mode">Staff Portal</span>
+      </div>
+      <div class="header-status" aria-label="System status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span class="status-text">Floor System Active</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Landmark -->
+  <main class="main-content container" id="main-content">
+    
+    <!-- Hero / Intro Banner -->
+    <section class="portal-intro" aria-label="Portal Overview">
+      <div class="intro-content">
+        <h2 class="portal-heading">Floor Event Management Directory</h2>
+        <p class="portal-subtext">
+          Browse, schedule, and curate store readings, signings, and community sessions in real time.
+        </p>
+      </div>
+    </section>
+
+    <!-- Controls Panel: Search, Filter & Action Button -->
+    <section class="controls-panel" aria-label="Search and Filter Controls">
+      <div class="search-filter-wrapper">
+        <div class="search-group">
+          <label for="search-input" class="sr-only">Search events by title, author, or keywords</label>
+          <input
+            type="search"
+            id="search-input"
+            placeholder="Search by title, author, or keyword..."
+            aria-label="Search events"
+            autocomplete="off"
+          />
+          <button id="search-btn" class="btn btn-secondary" aria-label="Execute search">
+            Search
+          </button>
+        </div>
+
+        <div class="filter-group">
+          <label for="category-filter" class="sr-only">Filter by Category</label>
+          <select id="category-filter" aria-label="Filter events by category">
+            <option value="ALL">All Categories</option>
+            <option value="Author Signing">Author Signing</option>
+            <option value="Book Club">Book Club</option>
+            <option value="Poetry Reading">Poetry Reading</option>
+            <option value="Children's Storytime">Children's Storytime</option>
+            <option value="Writing Workshop">Writing Workshop</option>
+          </select>
+        </div>
+      </div>
+
+      <button
+        id="toggle-form-btn"
+        class="btn btn-primary"
+        aria-expanded="false"
+        aria-controls="event-form-section"
+      >
+        + Create New Event
+      </button>
+    </section>
+
+    <!-- Asynchronous Loading State Simulator (Bad Connectivity / 3G) -->
+    <div
+      id="loading-indicator"
+      class="loading-state hidden"
+      role="status"
+      aria-live="polite"
+      aria-label="Loading events catalog"
+    >
+      <div class="spinner" aria-hidden="true"></div>
+      <p class="loading-text">Synchronizing floor catalog...</p>
+    </div>
+
+    <!-- Event Creation Form Section -->
+    <section
+      id="event-form-section"
+      class="form-card hidden"
+      aria-labelledby="form-heading"
+    >
+      <div class="form-header">
+        <h2 id="form-heading" class="section-title">Schedule New Store Event</h2>
+        <p class="form-subtitle">Fill in mandatory details below. All fields marked with (*) are required.</p>
+      </div>
+
+      <form id="create-event-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="event-title">Event Title <span class="req-star" aria-hidden="true">*</span></label>
+            <input
+              type="text"
+              id="event-title"
+              name="title"
+              placeholder="e.g., The Architecture of Modern Fiction"
+              required
+              aria-required="true"
+              aria-describedby="title-error"
+            />
+            <span class="error-msg" id="title-error" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="event-author">Author / Guest Speaker <span class="req-star" aria-hidden="true">*</span></label>
+            <input
+              type="text"
+              id="event-author"
+              name="author"
+              placeholder="e.g., Arundhati Roy"
+              required
+              aria-required="true"
+              aria-describedby="author-error"
+            />
+            <span class="error-msg" id="author-error" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="event-date">Event Date <span class="req-star" aria-hidden="true">*</span></label>
+            <input
+              type="date"
+              id="event-date"
+              name="date"
+              required
+              aria-required="true"
+              aria-describedby="date-error"
+            />
+            <span class="error-msg" id="date-error" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="event-genre">Category <span class="req-star" aria-hidden="true">*</span></label>
+            <select
+              id="event-genre"
+              name="genre"
+              required
+              aria-required="true"
+              aria-describedby="genre-error"
+            >
+              <option value="">Select category...</option>
+              <option value="Author Signing">Author Signing</option>
+              <option value="Book Club">Book Club</option>
+              <option value="Poetry Reading">Poetry Reading</option>
+              <option value="Children's Storytime">Children's Storytime</option>
+              <option value="Writing Workshop">Writing Workshop</option>
+            </select>
+            <span class="error-msg" id="genre-error" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="event-desc">Event Summary / Floor Notes</label>
+          <textarea
+            id="event-desc"
+            name="desc"
+            rows="3"
+            placeholder="Provide brief details on seating arrangements, reading material, or guest notes..."
+          ></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="save-event-btn">
+            Save Event
+          </button>
+          <button type="button" id="cancel-form-btn" class="btn btn-secondary">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Events Directory Section -->
+    <section class="events-section" aria-label="Bookstore Events Directory">
+      <div class="section-header-bar">
+        <h2 class="section-title">Upcoming Schedule</h2>
+        <span id="events-count" class="events-count-badge" aria-live="polite">Showing 3 events</span>
+      </div>
+
+      <!-- Grid Container for Cards -->
+      <div
+        id="events-grid"
+        class="events-grid"
+        role="region"
+        aria-live="polite"
+        aria-label="List of scheduled bookstore events"
+      >
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+
+      <!-- Unhappy Path: Empty State Display -->
+      <div id="empty-state" class="empty-state hidden" role="status" aria-live="polite">
+        <div class="empty-icon" aria-hidden="true">∅</div>
+        <p class="empty-title">No data found</p>
+        <p class="empty-sub">No scheduled events match your current query or selected category filter.</p>
+        <button id="reset-search-btn" class="btn btn-secondary empty-action-btn">
+          Clear Search Filter
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Corporate Footer Landmark -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <p class="footer-copy">&copy; 2026 Athenaeum Independent Booksellers. Operational Internal Build.</p>
+        <p class="footer-meta">Ticket: ENG-18072 &bull; Module: Core Infrastructure Overhaul &bull; Confidential</p>
+      </div>
+      <div class="footer-right">
+        <span class="security-badge">XSS Sanitized &bull; A11y Compliant</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
